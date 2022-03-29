@@ -7,6 +7,10 @@ const Body = Matter.Body;
 const Composites = Matter.Composites;
 const Composite = Matter.Composite;
 
+var isMobil
+var canW
+var canH
+
 let engine;
 let world;
 var rope,fruit,ground;
@@ -60,7 +64,20 @@ function preload()
 function setup() 
 {
   
-  createCanvas(500,700);
+  isMobil=/iphone|ipad|ipod|Android/i.test(navigator.userAgent)
+
+  if(isMobil){
+    canW=displayWidth
+    canH=displayHeight
+    createCanvas(displayWidth+80,displayHeight)
+    
+  }
+  else{
+    canW=windowWidth
+    canH=windowHeight
+    createCanvas(windowWidth,windowHeight)
+  }
+
   
   frameRate(80);
 
@@ -97,11 +114,11 @@ function setup()
   rope2 = new Rope(7,{x:370,y:40});
   rope3 = new Rope(4,{x:400,y:225});
 
-  ground = new Ground(200,690,600,20);
+  ground = new Ground(200,canH,600,20);
   blink.frameDelay = 20;
   eat.frameDelay = 20;
 
-  bunny = createSprite(170,620,100,100);
+  bunny = createSprite(170,canH-80,100,100);
   bunny.scale = 0.2;
 
   bunny.addAnimation('blinking',blink);
@@ -116,6 +133,7 @@ function setup()
   fruit_con_2 = new Link(rope2,fruit);
   fruit_con_3 = new Link(rope3,fruit);
 
+ 
   rectMode(CENTER);
   ellipseMode(RADIUS);
   textSize(50)
@@ -125,7 +143,7 @@ function setup()
 function draw() 
 {
   background(51);
-  image(bg_img,0,0);
+  image(bg_img,0,0,displayWidth,displayHeight);
 
   push();
   imageMode(CENTER);
@@ -157,6 +175,7 @@ function draw()
     fruit=null;
      
    }
+
    
 }
 
